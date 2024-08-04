@@ -1,3 +1,4 @@
+using MagicTheGatheringApi.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MagicTheGatheringApi.Controllers;
