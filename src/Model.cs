@@ -2,21 +2,23 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
+namespace MagicTheGatheringApi.Model;
+
 public class MagicTheGatheringContext : DbContext
 {
-    public DbSet<Card> Cards { get; set; }
+    private readonly string _dbPath;
 
-    public string DbPath;
+    public DbSet<Card> Cards { get; set; }
 
     public MagicTheGatheringContext()
     {
-        DbPath = Environment.GetEnvironmentVariable("MAGIC_THE_GATHERING_DB_PATH");
+        _dbPath = Environment.GetEnvironmentVariable("MAGIC_THE_GATHERING_DB_PATH") ?? string.Empty;
     }
 
     // The following configures EF to create a Sqlite database file in the
     // special "local" folder for your platform.
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlite($"Data Source={DbPath}");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseSqlite($"Data Source={_dbPath}");
 }
 
 [Table("cards")]
